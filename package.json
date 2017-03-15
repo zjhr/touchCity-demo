@@ -1,0 +1,19 @@
+{
+  "name": "touchcity",
+  "version": "1.0.0",
+  "description": "jquery仿app选择城市，选择名片demo",
+  "main": "jQuery-v1.11.2.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zjhr/touchCity-demo.git"
+  },
+  "author": "zjhr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zjhr/touchCity-demo/issues"
+  },
+  "homepage": "https://github.com/zjhr/touchCity-demo#readme"
+}

@@ -1,0 +1,239 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <title>个人仿城市选择，用户选择demo</title>
+    <script src="jQuery-v1.11.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            /*! jquery仿app选择城市，选择名片demo
+            //作者：zjhr qq：604068311 github：https://github.com/zjhr
+            */
+            var $index1 = [],
+                $index2 = [],
+                $name = {},
+                $aLength = $("#nav a"),
+                $aHeight = $aLength.height();
+
+            function nav() {
+                for (var i = 0; i < $aLength.length; i++) {
+                    var j = $("#nav a").eq(i).position().top;
+                    var c = $("#nav a").eq(i).text();
+                    $index1.push(j);
+                    $index2.push(c);
+                    var e = $index1[i];
+                    $name[e] = $index2[i];
+                }
+            }
+            nav();
+
+            function touchNav(h) {
+                if (h <= $aLength.length * $aHeight) {
+                    var d = h % $aHeight;
+                    var f = h - d;
+                    var g = $name[f];
+                }
+                $("#biger").text(g).show();
+                $("#cool h3").each(function (index, element) {
+                    if ($(this).html() == g) {
+                        $(window).scrollTop($(this).offset().top);
+                    }
+                });
+            }
+            //div的坐标，偏移量，宽度
+            var div = $("#result")[0];
+            var touch, y, divY,
+                divOfficeY = $("#result").offset().top;
+            $(window).scroll(function () {
+                divOfficeY = $("#result").offset().top;
+            })
+            //touchstart事件
+            function touchSatrtFunc(evt) {
+                try {
+                    evt.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+
+                    touch = evt.touches[0]; //获取第一个触点
+                    y = Number(touch.pageY); //页面触点Y坐标
+                    divY = Number(y - divOfficeY);
+                    var text = 'TouchStart事件触发：（' + divY + '）';
+                    $("#text").text(text);
+                    touchNav(divY);
+                    $("html").css({
+                            "overflow": "hidden",
+                            "overflow-y": "hidden"
+                        })
+                        .find("#result")
+                        .addClass("bg-touch");
+                } catch (e) {
+                    console.log('touchSatrtFunc：' + e.message);
+                }
+            }
+
+            //touchmove事件，这个事件无法获取坐标
+            function touchMoveFunc(evt) {
+                try {
+                    evt.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+                    touch = evt.touches[0]; //获取第一个触点
+                    y = Number(touch.pageY); //页面触点Y坐标
+                    divY = Number(y - divOfficeY);
+                    touchNav(divY);
+                    var text = 'TouchMove事件触发：（' + divY + '）';
+                    $("#text").text(text);
+                } catch (e) {
+                    console.log('touchMoveFunc：' + e.message);
+                }
+            }
+
+            //touchend事件
+            function touchEndFunc(evt) {
+                try {
+                    evt.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+
+                    var text = 'TouchEnd事件触发';
+                    $("#text").text(text);
+                    setTimeout(function () {
+                        $("#biger").hide();
+                    }, 500);
+                    $("html").css({
+                            "overflow": "auto",
+                            "overflow-y": "auto"
+                        })
+                        .find("#result")
+                        .removeClass("bg-touch");
+                } catch (e) {
+                    console.log('touchEndFunc：' + e.message);
+                }
+            }
+
+            //绑定事件
+            function bindEvent() {
+                div.addEventListener('touchstart', touchSatrtFunc, false);
+                div.addEventListener('touchmove', touchMoveFunc, false);
+                div.addEventListener('touchend', touchEndFunc, false);
+            }
+            bindEvent();
+        })
+    </script>
+    <style>
+        #result {
+            position: fixed;
+            right: 0;
+            top: 20px;
+            width: 20px;
+            margin: auto;
+        }
+        
+        .bg-touch {
+            background-color: hsla(0, 0%, 0%, 0.30);
+            color: #fff;
+            -webkit-border-radius: 7px;
+            border-radius: 7px;
+        }
+        
+        a {
+            display: block;
+            line-height: 13px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        h3 {
+            display: block;
+            line-height: 20px;
+            text-align: center;
+            margin-bottom: 500px;
+        }
+        
+        nav a {
+            position: relative;
+        }
+        
+        #biger {
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 32px;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -50px;
+            margin-top: -50px;
+            background-color: hsla(0, 0%, 38%, 0.80);
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <i style="position:fixed;top:50px" id="text"></i>
+    <div id="result">
+        <div id="nav">
+            <a>#</a>
+            <a>A</a>
+            <a>B</a>
+            <a>C</a>
+            <a>D</a>
+            <a>E</a>
+            <a>F</a>
+            <a>G</a>
+            <a>H</a>
+            <a>I</a>
+            <a>J</a>
+            <a>K</a>
+            <a>L</a>
+            <a>M</a>
+            <a>N</a>
+            <a>O</a>
+            <a>P</a>
+            <a>Q</a>
+            <a>R</a>
+            <a>S</a>
+            <a>T</a>
+            <a>U</a>
+            <a>V</a>
+            <a>W</a>
+            <a>X</a>
+            <a>Y</a>
+            <a>Z</a>
+        </div>
+    </div>
+    <div id="cool">
+        <h3>#</h3>
+        <h3>A</h3>
+        <h3>B</h3>
+        <h3>C</h3>
+        <h3>D</h3>
+        <h3>E</h3>
+        <h3>F</h3>
+        <h3>G</h3>
+        <h3>H</h3>
+        <h3>I</h3>
+        <h3>J</h3>
+        <h3>K</h3>
+        <h3>L</h3>
+        <h3>M</h3>
+        <h3>N</h3>
+        <h3>O</h3>
+        <h3>P</h3>
+        <h3>Q</h3>
+        <h3>R</h3>
+        <h3>S</h3>
+        <h3>T</h3>
+        <h3>U</h3>
+        <h3>V</h3>
+        <h3>W</h3>
+        <h3>X</h3>
+        <h3>Y</h3>
+        <h3>Z</h3>
+    </div>
+    <div id="biger"></div>
+</body>
+
+</html>
